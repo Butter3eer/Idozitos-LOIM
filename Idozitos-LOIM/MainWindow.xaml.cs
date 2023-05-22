@@ -24,7 +24,6 @@ namespace Idozitos_LOIM
     {
         List<Kerdesek> kerdesek = new List<Kerdesek>();
         DispatcherTimer timer = new DispatcherTimer();
-        DispatcherTimer timerSzin = new DispatcherTimer();
         DispatcherTimer idoBoxTimer = new DispatcherTimer();
         int index = 0;
         public MainWindow()
@@ -51,7 +50,6 @@ namespace Idozitos_LOIM
             if (int.Parse(Idomegy.Text) == 0)
             {
                 idoBoxTimer.Stop();
-                Idomegy.Text = "10";
             }
         }
 
