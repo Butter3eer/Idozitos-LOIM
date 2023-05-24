@@ -41,31 +41,35 @@ namespace Idozitos_LOIM
             idoBoxTimer.Tick += Szamlalo;
         }
 
-        private void Szamlalo(object? sender, EventArgs e)
+        public void Szamlalo(object? sender, EventArgs e)
         {
             Szamol();
         }
 
-        private void Szamol()
+        public void Szamol()
         {  
             Idomegy.Text = (Convert.ToInt16(Idomegy.Text) - 1).ToString();
             if (int.Parse(Idomegy.Text) == 0)
             {
                 idoBoxTimer.Stop();
-            }
+            }    
+        }
+
+        public void Game(object? sender, EventArgs e)
+        {
             if (talalt)
             {
-
+                index++;
+                idoBoxTimer.Stop();
+            }
+            else
+            {
+                Szovegek(index);
+                index++;
             }
         }
 
-        private void Game(object? sender, EventArgs e)
-        {
-            Szovegek(index);
-            index++; 
-        }
-
-        private void Beolvas()
+        public void Beolvas()
         {
             kerdesek.Clear();
             StreamReader file = new StreamReader("kerdes.txt");
@@ -78,7 +82,7 @@ namespace Idozitos_LOIM
             timer.Start();
         }
 
-        private void Szovegek(int index)
+        public void Szovegek(int index)
         {
             if (index < kerdesek.Count)
             {
@@ -96,13 +100,14 @@ namespace Idozitos_LOIM
             else { timer.Stop(); }
         }
 
-        private void ClickA(object sender, RoutedEventArgs e)
+        public void ClickA(object sender, RoutedEventArgs e)
         {
             if (helyes == A.Name)
             {
                 pontok++;
                 pontLabel.Content = pontok.ToString();
                 talalt = true;
+                A.IsEnabled = false;
             }
             else
             {
@@ -110,13 +115,14 @@ namespace Idozitos_LOIM
             }
         }
 
-        private void ClickB(object sender, RoutedEventArgs e)
+        public void ClickB(object sender, RoutedEventArgs e)
         {
             if (helyes == B.Name)
             {
                 pontok++;
                 pontLabel.Content = pontok.ToString();
                 talalt = true;
+                B.IsEnabled = false;
             }
             else
             {
@@ -124,13 +130,14 @@ namespace Idozitos_LOIM
             }
         }
 
-        private void ClickC(object sender, RoutedEventArgs e)
+        public void ClickC(object sender, RoutedEventArgs e)
         {
             if (helyes == C.Name)
             {
                 pontok++;
                 pontLabel.Content = pontok.ToString();
                 talalt = true;
+                C.IsEnabled = false;
             }
             else
             {
@@ -138,13 +145,14 @@ namespace Idozitos_LOIM
             }
         }
 
-        private void ClickD(object sender, RoutedEventArgs e)
+        public void ClickD(object sender, RoutedEventArgs e)
         {
             if (helyes == D.Name)
             {
                 pontok++;
                 pontLabel.Content = pontok.ToString();
                 talalt = true;
+                D.IsEnabled = false;
             }
             else
             {
