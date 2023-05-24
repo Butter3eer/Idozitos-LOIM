@@ -25,6 +25,9 @@ namespace Idozitos_LOIM
         List<Kerdesek> kerdesek = new List<Kerdesek>();
         DispatcherTimer timer = new DispatcherTimer();
         DispatcherTimer idoBoxTimer = new DispatcherTimer();
+        string helyes = "";
+        bool talalt = false;
+        int pontok = 0;
         int index = 0;
         public MainWindow()
         {
@@ -36,7 +39,6 @@ namespace Idozitos_LOIM
 
             idoBoxTimer.Interval = TimeSpan.FromSeconds(1);
             idoBoxTimer.Tick += Szamlalo;
-            Idomegy.Text = "11";
         }
 
         private void Szamlalo(object? sender, EventArgs e)
@@ -51,13 +53,16 @@ namespace Idozitos_LOIM
             {
                 idoBoxTimer.Stop();
             }
+            if (talalt)
+            {
+
+            }
         }
 
         private void Game(object? sender, EventArgs e)
         {
             Szovegek(index);
-            index++;
-            
+            index++; 
         }
 
         private void Beolvas()
@@ -69,8 +74,7 @@ namespace Idozitos_LOIM
                 string[] reszek = file.ReadLine().Split(';');
                 kerdesek.Add(new Kerdesek(int.Parse(reszek[0]), reszek[1], reszek[2], reszek[3], reszek[4], reszek[5], reszek[6], reszek[7]));
             }
-            file.Close();
-            idoBoxTimer.Start();
+            file.Close();   
             timer.Start();
         }
 
@@ -81,16 +85,71 @@ namespace Idozitos_LOIM
                 Kerdesek item = kerdesek[index];
 
                 Kerdes.Text = item.Kerdes;
-                A.Text = item.ValaszA;
-                B.Text = item.ValaszB;
-                C.Text = item.ValaszC;
-                D.Text = item.ValaszD;
-                A.Background = Brushes.PeachPuff;
-                B.Background = Brushes.PeachPuff;
-                C.Background = Brushes.PeachPuff;
-                D.Background = Brushes.PeachPuff;
+                A.Content = item.ValaszA;
+                B.Content = item.ValaszB;
+                C.Content = item.ValaszC;
+                D.Content = item.ValaszD;
+                helyes = item.HelyesValasz;
+                Idomegy.Text = "10";
+                idoBoxTimer.Start();
             }
             else { timer.Stop(); }
+        }
+
+        private void ClickA(object sender, RoutedEventArgs e)
+        {
+            if (helyes == A.Name)
+            {
+                pontok++;
+                pontLabel.Content = pontok.ToString();
+                talalt = true;
+            }
+            else
+            {
+                A.Background = Brushes.Red;
+            }
+        }
+
+        private void ClickB(object sender, RoutedEventArgs e)
+        {
+            if (helyes == B.Name)
+            {
+                pontok++;
+                pontLabel.Content = pontok.ToString();
+                talalt = true;
+            }
+            else
+            {
+                B.Background = Brushes.Red;
+            }
+        }
+
+        private void ClickC(object sender, RoutedEventArgs e)
+        {
+            if (helyes == C.Name)
+            {
+                pontok++;
+                pontLabel.Content = pontok.ToString();
+                talalt = true;
+            }
+            else
+            {
+                C.Background = Brushes.Red;
+            }
+        }
+
+        private void ClickD(object sender, RoutedEventArgs e)
+        {
+            if (helyes == D.Name)
+            {
+                pontok++;
+                pontLabel.Content = pontok.ToString();
+                talalt = true;
+            }
+            else
+            {
+                D.Background = Brushes.Red;
+            }
         }
     }
 }
