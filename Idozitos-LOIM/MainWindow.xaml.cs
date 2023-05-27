@@ -22,18 +22,18 @@ namespace Idozitos_LOIM
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Kerdesek> kerdesek = new List<Kerdesek>();
+        
+        List<Kerdesek> lista = new List<Kerdesek>();
         DispatcherTimer timer = new DispatcherTimer();
         DispatcherTimer idoBoxTimer = new DispatcherTimer();
-        string helyes = "";
-        bool talalt = false;
+        int kattintasok = 0;
         int pontok = 0;
-        int index = 0;
+
         public MainWindow()
         {
             InitializeComponent();
             Beolvas();
-            
+
             timer.Interval = TimeSpan.FromSeconds(11);
             timer.Tick += Game;
 
@@ -57,26 +57,18 @@ namespace Idozitos_LOIM
 
         public void Game(object? sender, EventArgs e)
         {
-            if (talalt)
-            {
-                index++;
-                idoBoxTimer.Stop();
-            }
-            else
-            {
-                Szovegek(index);
-                index++;
-            }
+            Szovegek(kattintasok);
+            kattintasok++;
         }
 
         public void Beolvas()
         {
-            kerdesek.Clear();
+            lista.Clear();
             StreamReader file = new StreamReader("kerdes.txt");
             while (!file.EndOfStream)
             {
                 string[] reszek = file.ReadLine().Split(';');
-                kerdesek.Add(new Kerdesek(int.Parse(reszek[0]), reszek[1], reszek[2], reszek[3], reszek[4], reszek[5], reszek[6], reszek[7]));
+                lista.Add(new Kerdesek(int.Parse(reszek[0]), reszek[1], reszek[2], reszek[3], reszek[4], reszek[5], reszek[6], reszek[7]));
             }
             file.Close();   
             timer.Start();
@@ -84,16 +76,16 @@ namespace Idozitos_LOIM
 
         public void Szovegek(int index)
         {
-            if (index < kerdesek.Count)
+            if (index < lista.Count)
             {
-                Kerdesek item = kerdesek[index];
-
+                Kerdesek item = lista[index];
+                  
                 Kerdes.Text = item.Kerdes;
                 A.Content = item.ValaszA;
                 B.Content = item.ValaszB;
                 C.Content = item.ValaszC;
                 D.Content = item.ValaszD;
-                helyes = item.HelyesValasz;
+
                 Idomegy.Text = "10";
                 idoBoxTimer.Start();
             }
@@ -102,61 +94,73 @@ namespace Idozitos_LOIM
 
         public void ClickA(object sender, RoutedEventArgs e)
         {
-            if (helyes == A.Name)
+            if (A.Content.ToString() == lista[kattintasok].HelyesValasz)
             {
+                kattintasok++;
                 pontok++;
                 pontLabel.Content = pontok.ToString();
-                talalt = true;
                 A.IsEnabled = false;
+                timer.Stop();
             }
             else
             {
-                A.Background = Brushes.Red;
+                kattintasok++;
+                A.IsEnabled = false;
+                timer.Stop();
             }
         }
 
         public void ClickB(object sender, RoutedEventArgs e)
         {
-            if (helyes == B.Name)
+            if (B.Content.ToString() == lista[kattintasok].HelyesValasz)
             {
+                kattintasok++;
                 pontok++;
                 pontLabel.Content = pontok.ToString();
-                talalt = true;
                 B.IsEnabled = false;
+                timer.Stop();
             }
             else
             {
-                B.Background = Brushes.Red;
+                kattintasok++;
+                B.IsEnabled = false;
+                timer.Stop();
             }
         }
 
         public void ClickC(object sender, RoutedEventArgs e)
         {
-            if (helyes == C.Name)
+            if (C.Content.ToString() == lista[kattintasok].HelyesValasz)
             {
+                kattintasok++;
                 pontok++;
                 pontLabel.Content = pontok.ToString();
-                talalt = true;
                 C.IsEnabled = false;
+                timer.Stop();
             }
             else
             {
-                C.Background = Brushes.Red;
+                kattintasok++;
+                C.IsEnabled = false;
+                timer.Stop();
             }
         }
 
         public void ClickD(object sender, RoutedEventArgs e)
         {
-            if (helyes == D.Name)
+            if (D.Content.ToString() == lista[kattintasok].HelyesValasz)
             {
+                kattintasok++;
                 pontok++;
                 pontLabel.Content = pontok.ToString();
-                talalt = true;
                 D.IsEnabled = false;
+                timer.Stop();
             }
             else
             {
-                D.Background = Brushes.Red;
+                kattintasok++;
+                D.IsEnabled = false;
+                timer.Stop();
             }
         }
     }
