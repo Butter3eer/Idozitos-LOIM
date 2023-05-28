@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,9 +23,8 @@ namespace Idozitos_LOIM
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        object kuldo;
         List<Kerdesek> lista = new List<Kerdesek>();
-        DispatcherTimer timer = new DispatcherTimer();
         DispatcherTimer idoBoxTimer = new DispatcherTimer();
         int kattintasok = 0;
         int pontok = 0;
@@ -34,31 +34,37 @@ namespace Idozitos_LOIM
             InitializeComponent();
             Beolvas();
 
-            timer.Interval = TimeSpan.FromSeconds(11);
-            timer.Tick += Game;
-
             idoBoxTimer.Interval = TimeSpan.FromSeconds(1);
             idoBoxTimer.Tick += Szamlalo;
+            Idomegy.Text = "31";
         }
 
         public void Szamlalo(object? sender, EventArgs e)
         {
-            Szamol();
+            Szamol(); 
         }
 
         public void Szamol()
-        {  
+        {
+            if (kuldo is not null)
+            {
+                Ellenorzes(kuldo);
+                kuldo = null;
+            }
+
+            Szovegek(kattintasok);
+
             Idomegy.Text = (Convert.ToInt16(Idomegy.Text) - 1).ToString();
+            pontLabel.Content = pontok.ToString();
+
             if (int.Parse(Idomegy.Text) == 0)
             {
-                idoBoxTimer.Stop();
-            }    
-        }
-
-        public void Game(object? sender, EventArgs e)
-        {
-            Szovegek(kattintasok);
-            kattintasok++;
+                kattintasok++;
+            }
+            if (int.Parse(Idomegy.Text) == -1)
+            {
+                Idomegy.Text = "30";
+            }
         }
 
         public void Beolvas()
@@ -70,8 +76,8 @@ namespace Idozitos_LOIM
                 string[] reszek = file.ReadLine().Split(';');
                 lista.Add(new Kerdesek(int.Parse(reszek[0]), reszek[1], reszek[2], reszek[3], reszek[4], reszek[5], reszek[6], reszek[7]));
             }
-            file.Close();   
-            timer.Start();
+            file.Close();
+            idoBoxTimer.Start();
         }
 
         public void Szovegek(int index)
@@ -85,83 +91,46 @@ namespace Idozitos_LOIM
                 B.Content = item.ValaszB;
                 C.Content = item.ValaszC;
                 D.Content = item.ValaszD;
-
-                Idomegy.Text = "10";
-                idoBoxTimer.Start();
             }
-            else { timer.Stop(); }
+            else 
+            {
+                idoBoxTimer.Stop();
+                MessageBox.Show($"Vége a játéknak! Pontszámod: {pontok}");
+            }
         }
 
         public void ClickA(object sender, RoutedEventArgs e)
         {
-            if (A.Content.ToString() == lista[kattintasok].HelyesValasz)
-            {
-                kattintasok++;
-                pontok++;
-                pontLabel.Content = pontok.ToString();
-                A.IsEnabled = false;
-                timer.Stop();
-            }
-            else
-            {
-                kattintasok++;
-                A.IsEnabled = false;
-                timer.Stop();
-            }
+            kuldo = sender;
         }
 
         public void ClickB(object sender, RoutedEventArgs e)
         {
-            if (B.Content.ToString() == lista[kattintasok].HelyesValasz)
-            {
-                kattintasok++;
-                pontok++;
-                pontLabel.Content = pontok.ToString();
-                B.IsEnabled = false;
-                timer.Stop();
-            }
-            else
-            {
-                kattintasok++;
-                B.IsEnabled = false;
-                timer.Stop();
-            }
+            kuldo = sender;
         }
 
         public void ClickC(object sender, RoutedEventArgs e)
         {
-            if (C.Content.ToString() == lista[kattintasok].HelyesValasz)
-            {
-                kattintasok++;
-                pontok++;
-                pontLabel.Content = pontok.ToString();
-                C.IsEnabled = false;
-                timer.Stop();
-            }
-            else
-            {
-                kattintasok++;
-                C.IsEnabled = false;
-                timer.Stop();
-            }
+            kuldo = sender;
         }
 
         public void ClickD(object sender, RoutedEventArgs e)
         {
-            if (D.Content.ToString() == lista[kattintasok].HelyesValasz)
+            kuldo = sender;
+        }
+
+        public void Ellenorzes(object sender)
+        { 
+            if ((sender as Button).Name == lista[kattintasok].HelyesValasz)
             {
                 kattintasok++;
-                pontok++;
-                pontLabel.Content = pontok.ToString();
-                D.IsEnabled = false;
-                timer.Stop();
+                pontok++;    
             }
             else
             {
                 kattintasok++;
-                D.IsEnabled = false;
-                timer.Stop();
             }
+            Idomegy.Text = "31";
         }
     }
 }
