@@ -26,6 +26,8 @@ namespace Idozitos_LOIM
         object kuldo;
         List<Kerdesek> lista = new List<Kerdesek>();
         DispatcherTimer idoBoxTimer = new DispatcherTimer();
+        DispatcherTimer szinTimer = new DispatcherTimer();
+        DispatcherTimer kerdesekTimer = new DispatcherTimer();
         int kattintasok = 0;
         int pontok = 0;
 
@@ -36,7 +38,43 @@ namespace Idozitos_LOIM
 
             idoBoxTimer.Interval = TimeSpan.FromSeconds(1);
             idoBoxTimer.Tick += Szamlalo;
+
+            szinTimer.Interval = TimeSpan.FromSeconds(1);
+            szinTimer.Tick += Megallo;
+
+            kerdesekTimer.Interval = TimeSpan.FromSeconds(0.5);
+            kerdesekTimer.Tick += KerdesReset;
             Idomegy.Text = "31";
+        }
+
+        private void KerdesReset(object? sender, EventArgs e)
+        {
+            if (kuldo is not null)
+            {
+                Ellenorzes(kuldo);
+            }
+            Szovegek(kattintasok);
+        }
+
+        private void Megallo(object? sender, EventArgs e)
+        {
+            idoBoxTimer.Start();
+            kerdesekTimer.Start();
+            (kuldo as Button).Background = SystemColors.ControlBrush;
+            foreach (var item in kerdesGrid.Children)
+            {
+                if (item is Button)
+                {
+                    if ((item as Button).Name == lista[kattintasok].HelyesValasz)
+                    {
+                        (item as Button).Background = SystemColors.ControlBrush;
+                    }
+                }
+            }
+            kuldo = null;
+            kattintasok++;
+            szinTimer.Stop();
+            Idomegy.Text = "30";
         }
 
         public void Szamlalo(object? sender, EventArgs e)
@@ -46,14 +84,6 @@ namespace Idozitos_LOIM
 
         public void Szamol()
         {
-            if (kuldo is not null)
-            {
-                Ellenorzes(kuldo);
-                kuldo = null;
-            }
-
-            Szovegek(kattintasok);
-
             Idomegy.Text = (Convert.ToInt16(Idomegy.Text) - 1).ToString();
             pontLabel.Content = pontok.ToString();
 
@@ -78,6 +108,7 @@ namespace Idozitos_LOIM
             }
             file.Close();
             idoBoxTimer.Start();
+            kerdesekTimer.Start();
         }
 
         public void Szovegek(int index)
@@ -86,14 +117,15 @@ namespace Idozitos_LOIM
             {
                 Kerdesek item = lista[index];
                   
-                Kerdes.Text = item.Kerdes;
-                A.Content = item.ValaszA;
-                B.Content = item.ValaszB;
-                C.Content = item.ValaszC;
-                D.Content = item.ValaszD;
+                Kerdes.Text = item.Id + ". " + item.Kerdes;
+                TBA.Text = item.ValaszA;
+                TBB.Text = item.ValaszB;
+                TBC.Text = item.ValaszC;
+                TBD.Text = item.ValaszD;
             }
             else 
             {
+                kerdesekTimer.Stop();
                 idoBoxTimer.Stop();
                 MessageBox.Show($"Vége a játéknak! Pontszámod: {pontok}");
             }
@@ -120,17 +152,32 @@ namespace Idozitos_LOIM
         }
 
         public void Ellenorzes(object sender)
-        { 
+        {
             if ((sender as Button).Name == lista[kattintasok].HelyesValasz)
             {
-                kattintasok++;
-                pontok++;    
+                (sender as Button).Background = Brushes.Olive;
+                szinTimer.Start();
+                kerdesekTimer.Stop();
+                idoBoxTimer.Stop();
+                pontok++;
             }
             else
             {
-                kattintasok++;
-            }
-            Idomegy.Text = "31";
+                (sender as Button).Background = Brushes.Salmon;
+                foreach (var item in kerdesGrid.Children)
+                {
+                    if (item is Button)
+                    {
+                        if ((item as Button).Name == lista[kattintasok].HelyesValasz)
+                        {
+                            (item as Button).Background = Brushes.Olive;
+                        }
+                    }
+                }
+                szinTimer.Start();
+                kerdesekTimer.Stop();
+                idoBoxTimer.Stop();
+            }  
         }
     }
 }

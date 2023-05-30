@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Idozitos_LOIM"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Legyen Ön Is Milliomos" Height="450" Width="800">
     <Window.Resources>
         <Style TargetType="Button" x:Key="RoundButtonStyle">
             <Setter Property="Template">
@@ -31,19 +31,27 @@
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0" Grid.Column="0">
+        <Grid Name="kerdesGrid" Grid.Row="0" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="150"/>
             </Grid.RowDefinitions>
-            <Button Click="ClickA" FontSize="17px" Style="{StaticResource RoundButtonStyle}" VerticalContentAlignment="Center" Name="A" HorizontalAlignment="Center" Margin="20,20,300,80" Grid.Row="1" VerticalAlignment="Center" Width="250" Height="50"/>
-            <Button Click="ClickB" FontSize="17px" Style="{StaticResource RoundButtonStyle}" VerticalContentAlignment="Center" Name="B" HorizontalAlignment="Center" Margin="20,80,300,0" Grid.Row="1" VerticalAlignment="Center" Width="250" Height="50"/>
-            <Button Click="ClickC" FontSize="17px" Style="{StaticResource RoundButtonStyle}" VerticalContentAlignment="Center" Name="C" HorizontalAlignment="Center" Margin="300,20,0,80" Grid.Row="1" VerticalAlignment="Center" Width="250" Height="50"/>
-            <Button Click="ClickD" FontSize="17px" Style="{StaticResource RoundButtonStyle}" VerticalContentAlignment="Center" Name="D" HorizontalAlignment="Center" Margin="300,80,0,0" Grid.Row="1" VerticalAlignment="Center" Width="250" Height="50"/>
-            <TextBlock Name="Kerdes" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="30" TextAlignment="Center"/>
-            <TextBlock Name="Idomegy" HorizontalAlignment="Left" Margin="20,0,0,20" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="30"/>
+            <Button Name="A" FontFamily="Courier New" Click="ClickA" FontSize="17px" Style="{StaticResource RoundButtonStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="10,20,300,80" Grid.Row="1" VerticalAlignment="Center" Width="280" Height="50">
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Name="TBA"/>
+            </Button>
+            <Button Name="B" FontFamily="Courier New" Click="ClickB" FontSize="17px" Style="{StaticResource RoundButtonStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="10,80,300,0" Grid.Row="1" VerticalAlignment="Center" Width="280" Height="50">
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Name="TBB"/>
+            </Button>
+            <Button Name="C" FontFamily="Courier New" Click="ClickC" FontSize="17px" Style="{StaticResource RoundButtonStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="310,20,0,80" Grid.Row="1" VerticalAlignment="Center" Width="280" Height="50">
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Name="TBC"/>
+            </Button>
+            <Button Name="D" FontFamily="Courier New" Click="ClickD" FontSize="17px" Style="{StaticResource RoundButtonStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="310,80,0,0" Grid.Row="1" VerticalAlignment="Center" Width="280" Height="50">
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Name="TBD"/>
+            </Button>
+            <TextBlock FontFamily="Courier New" Name="Kerdes" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="30" TextAlignment="Center"/>
+            <TextBlock FontFamily="Courier New" Name="Idomegy" HorizontalAlignment="Left" Margin="20,0,0,20" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="30"/>
         </Grid>
-        <Label Name="pontLabel" Grid.Column="1" HorizontalAlignment="Center" Margin="0,23,0,0" VerticalAlignment="Top" FontSize="50"/>
+        <Label FontFamily="Courier New" Name="pontLabel" Grid.Column="1" HorizontalAlignment="Center" Margin="0,23,0,0" VerticalAlignment="Top" FontSize="50"/>
 
     </Grid>
 </Window>
